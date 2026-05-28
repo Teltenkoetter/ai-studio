@@ -531,18 +531,19 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
         </div>
 
         <div class="pgrp" id="grp-imagesize">
-          <div class="pgrp-lbl">Auflösung <span style="color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">— nicht für Fast</span></div>
+          <div class="pgrp-lbl">Auflösung</div>
           <div class="seg" id="seg-imagesize">
             <button class="seg-btn on" data-v="1K">1K</button>
             <button class="seg-btn" data-v="2K">2K</button>
+            <button class="seg-btn" data-v="4K" id="btn-4k-opt">4K</button>
           </div>
-          <p class="param-note">Nur für Imagen Standard &amp; Ultra — bei anderen Modellen nicht verfügbar.</p>
+          <p class="param-note" id="imagesize-note"></p>
         </div>
 
         <div class="pgrp" id="grp-upscale-tip" style="display:none;">
           <div style="background:var(--acc-bg);border:1px solid rgba(118,159,218,0.2);border-radius:var(--r-sm);padding:9px 11px;">
             <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px;">💡 Höhere Auflösung</div>
-            <div class="param-note" style="color:var(--muted);">Gemini &amp; Imagen Fast geben ~1024 px aus. Für Druckqualität: PNG in Photoshop öffnen → <strong style="color:var(--text);">Bearbeiten → Generative Upscale</strong> (Adobe Firefly) → bis 4× ohne Qualitätsverlust.</div>
+            <div class="param-note" style="color:var(--muted);">Imagen Fast gibt ~1024 px aus. Für Druckqualität: PNG in Photoshop öffnen → <strong style="color:var(--text);">Bearbeiten → Generative Upscale</strong> (Adobe Firefly) → bis 4× ohne Qualitätsverlust.</div>
           </div>
         </div>
 
@@ -975,16 +976,43 @@ function initSeg(id, cb) {
 
 function applyParamVisibility() {
   var m = S.model;
-  setOff('grp-output', !m.startsWith('gemini'));
-  setOff('grp-temp',   !m.startsWith('gemini'));
+  var isGemini     = m.startsWith('gemini');
+  var isImagen     = m.startsWith('imagen');
+  var isImagenFast = m === 'imagen-4.0-fast-generate-001';
+
+  setOff('grp-output', !isGemini);
+  setOff('grp-temp',   !isGemini);
   setOff('grp-think',  !m.startsWith('gemini-2.5') && !m.startsWith('gemini-3'));
-  setOff('grp-count',  !m.startsWith('imagen'));
-  var imageSizeOff = !m.startsWith('imagen') || m === 'imagen-4.0-fast-generate-001';
+  setOff('grp-count',  !isImagen);
+
+  /* Auflösung: Gemini → 1K/2K/4K  |  Imagen Std/Ultra → 1K/2K  |  Imagen Fast → versteckt */
+  var imageSizeOff = isImagenFast;
   setOff('grp-imagesize', imageSizeOff);
   q('#grp-upscale-tip').style.display = imageSizeOff ? '' : 'none';
-  setOff('grp-neg',    !m.startsWith('imagen'));
-  setOff('grp-safety', !m.startsWith('imagen'));
-  q('#mode-row').style.display = m.startsWith('gemini') ? '' : 'none';
+
+  /* 4K-Button nur bei Gemini */
+  var btn4k = q('#btn-4k-opt');
+  if (btn4k) {
+    btn4k.style.display = isImagen ? 'none' : '';
+    if (isImagen && S.imageSize === '4K') {
+      S.imageSize = '2K';
+      q('#seg-imagesize').querySelectorAll('.seg-btn').forEach(function(b) {
+        b.classList.toggle('on', b.dataset.v === '2K');
+      });
+    }
+  }
+
+  /* Hinweistext */
+  var note = q('#imagesize-note');
+  if (note) {
+    if (isGemini)    note.textContent = '1K ≈ 1024 px · 2K ≈ 2048 px · 4K ≈ 4096 px';
+    else if (isImagen) note.textContent = '1K ≈ 1024 px · 2K ≈ 2048 px (Standard & Ultra)';
+    else               note.textContent = '';
+  }
+
+  setOff('grp-neg',    !isImagen);
+  setOff('grp-safety', !isImagen);
+  q('#mode-row').style.display = isGemini ? '' : 'none';
   updateUploadWarning();
 }
 
@@ -1187,6 +1215,13 @@ function callGemini(prompt) {
   if (S.model.startsWith('gemini-2.5') && S.thinking > 0) {
     cfg.thinkingConfig = { thinkingBudget: S.thinking };
   }
+  /* Auflösung & Seitenverhältnis für Gemini */
+  cfg.responseFormat = {
+    image: {
+      imageSize: S.imageSize,
+      aspectRatio: S.ratio
+    }
+  };
   var seed = getSeed();
   if (seed !== null) cfg.seed = seed;
 

@@ -21,9 +21,9 @@
   --text:    #e2e2e2;
   --muted:   #707070;
   --dim:     #3a3a3a;
-  --accent:  #769fda;
-  --acc-bg:  rgba(118,159,218,0.10);
-  --acc-txt: #fff;
+  --accent:  #ffffff;
+  --acc-bg:  rgba(255,255,255,0.07);
+  --acc-txt: #0a0a0a;
   --red:     #e53935;
   --red-bg:  rgba(229,57,53,0.10);
   --green:   #4ade80;
@@ -54,7 +54,7 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
 #screen-setup {
   height: 100vh; height: 100dvh;
   align-items: center; justify-content: center;
-  background: radial-gradient(ellipse 50% 35% at 50% -5%, rgba(118,159,218,0.05) 0%, transparent 70%);
+  background: radial-gradient(ellipse 50% 35% at 50% -5%, rgba(255,255,255,0.025) 0%, transparent 70%);
 }
 .setup-wrap { width: 420px; }
 .setup-logo { text-align: center; margin-bottom: 28px; }
@@ -179,9 +179,9 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
 .ctrl-slide input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none; width: 15px; height: 15px; border-radius: 50%;
   background: var(--accent); cursor: pointer; border: 2px solid var(--bg);
-  box-shadow: 0 0 0 1px rgba(118,159,218,0.5); transition: box-shadow 0.15s;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.35); transition: box-shadow 0.15s;
 }
-.ctrl-slide input[type=range]::-webkit-slider-thumb:hover { box-shadow: 0 0 0 3px rgba(118,159,218,0.25); }
+.ctrl-slide input[type=range]::-webkit-slider-thumb:hover { box-shadow: 0 0 0 3px rgba(255,255,255,0.15); }
 .ctrl-slide .sv { font-size: 12px; font-family: var(--mono); color: var(--accent); min-width: 28px; text-align: right; }
 
 .seg { display: flex; background: var(--s2); border: 1px solid var(--bd); border-radius: var(--r-sm); padding: 2px; gap: 2px; }
@@ -255,11 +255,11 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
   outline: none; resize: vertical; min-height: 60px; max-height: 240px;
   line-height: 1.55; transition: border-color 0.15s;
 }
-.prompt-box textarea:focus { border-color: rgba(118,159,218,0.35); }
+.prompt-box textarea:focus { border-color: rgba(255,255,255,0.22); }
 .prompt-box textarea::placeholder { color: var(--dim); }
 .prompt-box textarea.shake { animation: shake 0.28s ease; border-color: var(--red) !important; }
 @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
-.prompt-box.drag-over textarea { border-color: rgba(118,159,218,0.5); background: rgba(118,159,218,0.03); }
+.prompt-box.drag-over textarea { border-color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.02); }
 
 .cc { position: absolute; bottom: 8px; right: 11px; font-size: 11px; color: var(--dim); font-family: var(--mono); pointer-events: none; }
 .cc.near { color: #fb923c; }
@@ -282,7 +282,7 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
   line-height: 1; transition: opacity 0.12s;
 }
 .upload-item-rm:hover { opacity: 0.75; }
-.upload-strip-count { font-size: 10px; color: var(--accent); background: var(--acc-bg); border: 1px solid rgba(118,159,218,0.2); border-radius: 4px; padding: 1px 7px; flex-shrink: 0; white-space: nowrap; }
+.upload-strip-count { font-size: 10px; color: var(--accent); background: var(--acc-bg); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 1px 7px; flex-shrink: 0; white-space: nowrap; }
 .upload-warn { font-size: 11px; color: #fb923c; background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.18); border-radius: var(--r-sm); padding: 6px 10px; margin-bottom: 8px; line-height: 1.4; }
 
 /* ── MODE ROW ── */
@@ -327,7 +327,7 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
 .img-prompt { flex: 1; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: default; min-width: 0; }
 .img-tags { display: flex; gap: 4px; flex-shrink: 0; }
 .tag { background: var(--s3); border: 1px solid var(--bd); border-radius: 3px; padding: 1px 5px; font-size: 10px; color: var(--dim); font-family: var(--mono); white-space: nowrap; }
-.tag-hist { background: rgba(118,159,218,0.07); border-color: rgba(118,159,218,0.15); color: rgba(118,159,218,0.6); }
+.tag-hist { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.32); }
 
 .error-card { background: var(--red-bg); border: 1px solid rgba(229,57,53,0.2); border-radius: var(--r); padding: 14px 15px 12px; margin-bottom: 12px; }
 .error-title { font-size: 13px; font-weight: 600; color: #f87171; margin-bottom: 5px; }
@@ -378,6 +378,16 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
 .help-sec strong { color: var(--text); font-weight: 600; }
 .help-close-btn { width: 28px; height: 28px; border-radius: 50%; background: var(--s3); border: 1px solid var(--bd-hi); color: var(--muted); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.12s; flex-shrink: 0; }
 .help-close-btn:hover { background: var(--red); color: #fff; }
+
+/* ── STYLE CHIPS ── */
+.style-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.style-chip {
+  font-size: 11px; padding: 3px 9px; border-radius: 20px; cursor: pointer;
+  background: transparent; border: 1px solid var(--bd); color: var(--muted);
+  transition: all 0.12s; white-space: nowrap; line-height: 1.4;
+}
+.style-chip:hover { background: var(--s3); color: var(--text); border-color: var(--bd-hi); }
+.style-chip:active { transform: scale(0.95); }
 
 /* ── TEMPLATE PANEL ── */
 .gen-row-wrap { position: relative; }
@@ -499,6 +509,16 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
           </div>
         </div>
 
+        <div class="pgrp" id="grp-sysctx">
+          <div class="pgrp-lbl">System-Kontext</div>
+          <div class="seg" id="seg-sysctx">
+            <button class="seg-btn on" data-v="off">Aus</button>
+            <button class="seg-btn" data-v="expert">Expert</button>
+            <button class="seg-btn" data-v="grey">Graustufen</button>
+          </div>
+          <p class="param-note" id="sysctx-note" style="margin-top:5px;"></p>
+        </div>
+
         <div class="pgrp" id="grp-think">
           <div class="pgrp-lbl">Thinking-Level <span style="color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">— mehr = besser &amp; langsamer</span></div>
           <div class="seg" id="seg-think">
@@ -541,7 +561,7 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
         </div>
 
         <div class="pgrp" id="grp-upscale-tip" style="display:none;">
-          <div style="background:var(--acc-bg);border:1px solid rgba(118,159,218,0.2);border-radius:var(--r-sm);padding:9px 11px;">
+          <div style="background:var(--acc-bg);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r-sm);padding:9px 11px;">
             <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px;">💡 Höhere Auflösung</div>
             <div class="param-note" style="color:var(--muted);">Imagen Fast gibt ~1024 px aus. Für Druckqualität: PNG in Photoshop öffnen → <strong style="color:var(--text);">Bearbeiten → Generative Upscale</strong> (Adobe Firefly) → bis 4× ohne Qualitätsverlust.</div>
           </div>
@@ -561,7 +581,20 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
               <div class="tog-track"><div class="tog-thumb"></div></div>
             </label>
           </div>
-          <p class="param-note">Weniger strikt: für künstlerische Projekte. Nur für Volljährige.</p>
+          <p class="param-note">Weniger strikt: für künstlerische Projekte.</p>
+          <div class="tog-row" style="margin-top:8px;">
+            <span class="tog-text" id="persons-lbl">Personen: gesperrt</span>
+            <label class="toggle">
+              <input type="checkbox" id="tog-persons">
+              <div class="tog-track"><div class="tog-thumb"></div></div>
+            </label>
+          </div>
+          <p class="param-note" style="margin-top:4px;">Erlaubt realistische Personendarstellung.</p>
+        </div>
+
+        <div class="pgrp">
+          <div class="pgrp-lbl">Stil anfügen <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">— klick hängt Stil ans Prompt an</span></div>
+          <div class="style-chips" id="style-chips"></div>
         </div>
 
         <div class="pgrp pgrp-seed">
@@ -608,6 +641,7 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
           <div class="gen-row">
             <button class="btn btn-secondary" id="btn-upload" title="Bilder als Eingabe laden — max. 5 (oder auf Textarea ziehen)">📎 Bilder</button>
             <button class="btn btn-secondary" id="btn-tmpl" title="Prompt-Vorlagen aus dem NanoBanana Cheatsheet — Tab springt zum nächsten Platzhalter">📋 Vorlagen</button>
+            <button class="btn btn-secondary" id="btn-improve" title="Prompt mit KI automatisch verbessern und ausformulieren (Gemini)">✨</button>
             <button class="btn btn-primary" id="btn-gen">⚡ Generieren</button>
             <div style="flex:1"></div>
             <button class="btn btn-ghost btn-sm" id="btn-clear" style="display:none;">Ergebnisse leeren</button>
@@ -618,6 +652,7 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
       <div class="results" id="results">
         <div class="results-hdr" id="results-hdr">
           <span class="results-hdr-title">Ergebnisse <span class="badge" id="results-badge">0</span></span>
+          <button class="btn btn-ghost btn-sm" id="btn-dl-all" style="display:none;">↓ Alle</button>
         </div>
         <div id="results-body">
           <div class="results-empty" id="results-empty">
@@ -773,6 +808,19 @@ const MODEL_LABEL = {
 };
 
 /* ── TEMPLATES ── */
+/* ── SYSTEM INSTRUCTIONS ── */
+var SYS_INSTRUCTIONS = {
+  expert: 'You are an expert architectural visualization AI assistant for interior design and architecture students. Always produce photorealistic, high-quality renders with accurate geometry, professional architectural lighting, and precise spatial proportions. Maintain strict geometric accuracy unless explicitly instructed otherwise. Use architectural photography composition: sharp vertical lines, balanced perspective, professional depth of field.',
+  grey:   'Generate all images exclusively in black and white. Use strong, dramatic grayscale contrast with deep blacks, bright whites, and bold tonal ranges — absolutely no colors whatsoever. Emphasize structure, materiality, and spatial depth through contrast and light. Style: high-contrast architectural B&W photography or bold architectural charcoal visualization.'
+};
+
+/* ── STYLE CHIPS ── */
+var STYLE_CHIPS = [
+  'Photorealistic', 'Pencil sketch', 'Watercolour render', 'Axonometric view',
+  'Bauhaus', 'Japandi', 'Wabi-Sabi', 'Brutalist', 'Minimalist', 'Mid-Century Modern',
+  'Biophilic', 'Deconstructivist'
+];
+
 var TEMPLATES = [
   { cat: '🏠 Innenarchitektur', items: [
     { name: 'Leeren Raum einrichten',
@@ -830,7 +878,8 @@ var S = {
   chatMode: 'new', chatHistory: [],
   busy: false, totalImages: 0, totalCost: 0,
   lbUrl: '', lbPrompt: '',
-  inputImages: [], outputMode: 'IMAGE_TEXT'
+  inputImages: [], outputMode: 'IMAGE_TEXT',
+  sysCtx: 'off', personGen: false
 };
 
 /* ── HELPERS ── */
@@ -892,6 +941,7 @@ function launchApp(key) {
   initPrompt();
   initUpload();
   initTemplates();
+  initStyleChips();
   initUIEvents();
   initHelp();
   initResize();
@@ -956,6 +1006,17 @@ function initParams() {
     S.safetyLess = e.target.checked;
     q('#safety-lbl').textContent = S.safetyLess ? 'Weniger strikt' : 'Standard';
   });
+  q('#tog-persons').addEventListener('change', function(e) {
+    S.personGen = e.target.checked;
+    q('#persons-lbl').textContent = S.personGen ? 'Personen: erlaubt' : 'Personen: gesperrt';
+  });
+  initSeg('seg-sysctx', function(v) {
+    S.sysCtx = v;
+    var note = q('#sysctx-note');
+    if (v === 'expert') note.textContent = 'Photorealistisch, geometrisch präzise, professionelle Beleuchtung.';
+    else if (v === 'grey') note.textContent = 'Ausschließlich Schwarz-Weiß, starke Kontraste, keine Farbe.';
+    else note.textContent = '';
+  });
   q('#btn-dice').addEventListener('click', function() {
     q('#seed-input').value = Math.floor(Math.random() * 2147483647);
   });
@@ -1010,9 +1071,11 @@ function applyParamVisibility() {
     else               note.textContent = '';
   }
 
-  setOff('grp-neg',    !isImagen);
-  setOff('grp-safety', !isImagen);
-  q('#mode-row').style.display = isGemini ? '' : 'none';
+  setOff('grp-neg',     !isImagen);
+  setOff('grp-safety',  !isImagen);
+  setOff('grp-sysctx',  !isGemini);
+  q('#btn-improve').style.display = isGemini ? '' : 'none';
+  q('#mode-row').style.display    = isGemini ? '' : 'none';
   updateUploadWarning();
 }
 
@@ -1151,6 +1214,8 @@ function initUIEvents() {
     var b64 = S.lbUrl.split(',')[1];
     if (b64) { useAsInput(b64); closeLightbox(); }
   });
+  q('#btn-improve').addEventListener('click', improvePrompt);
+  q('#btn-dl-all').addEventListener('click', downloadAll);
   q('#lb-again').addEventListener('click', function() {
     closeLightbox();
     q('#prompt').value = S.lbPrompt;
@@ -1240,6 +1305,9 @@ function callGemini(prompt) {
 
   var url  = 'https://generativelanguage.googleapis.com/v1beta/models/' + S.model + ':generateContent?key=' + S.key;
   var body = { contents: contents, generationConfig: cfg };
+  if (S.sysCtx !== 'off' && SYS_INSTRUCTIONS[S.sysCtx]) {
+    body.systemInstruction = { parts: [{ text: SYS_INSTRUCTIONS[S.sysCtx] }] };
+  }
 
   return apiFetch(url, body).then(function(data) {
     var candidates = (data && data.candidates) || [];
@@ -1278,6 +1346,7 @@ function callImagen(prompt) {
     safetySetting: S.safetyLess ? 'block_few' : 'block_some'
   };
   if (S.model !== 'imagen-4.0-fast-generate-001') params.imageSize = S.imageSize;
+  if (S.personGen) params.personGeneration = 'allow_adult';
   var neg = q('#neg-prompt').value.trim();
   if (neg) params.negativePrompt = neg;
   var seed = getSeed();
@@ -1392,13 +1461,15 @@ function showResultsHeader() {
   var empty = q('#results-empty');
   if (empty) empty.remove();
   q('#results-hdr').classList.add('show');
-  q('#btn-clear').style.display = '';
+  q('#btn-clear').style.display   = '';
+  q('#btn-dl-all').style.display  = '';
 }
 
 function clearResults() {
   q('#results-body').innerHTML = '';
   q('#results-hdr').classList.remove('show');
-  q('#btn-clear').style.display = 'none';
+  q('#btn-clear').style.display  = 'none';
+  q('#btn-dl-all').style.display = 'none';
   S.totalImages = 0; S.totalCost = 0;
   updateCounts();
   var empty = mk('results-empty');
@@ -1537,6 +1608,84 @@ function insertTemplate(text) {
   ta.focus();
   closeTmplPanel();
   showToast('Tab → nächsten Platzhalter auswählen');
+}
+
+/* ── STYLE CHIPS ── */
+function initStyleChips() {
+  var container = q('#style-chips');
+  STYLE_CHIPS.forEach(function(style) {
+    var btn = document.createElement('button');
+    btn.className = 'style-chip';
+    btn.textContent = style;
+    btn.addEventListener('click', function() {
+      var ta = q('#prompt');
+      var v = ta.value.trimEnd();
+      var append = ', ' + style + ' style';
+      if (v.length + append.length <= 800) {
+        ta.value = v + append;
+        ta.dispatchEvent(new Event('input'));
+        ta.focus();
+        showToast('✚ ' + style);
+      } else {
+        showToast('Prompt zu lang für diesen Stil');
+      }
+    });
+    container.appendChild(btn);
+  });
+}
+
+/* ── IMPROVE PROMPT ── */
+function improvePrompt() {
+  var ta = q('#prompt');
+  var text = ta.value.trim();
+  if (!text) { showToast('Bitte erst einen Prompt eingeben'); return; }
+  if (S.busy) return;
+  var btn = q('#btn-improve');
+  btn.disabled = true; btn.textContent = '⏳';
+  var sysInstr = 'You are an expert prompt engineer for architectural and interior design AI image generation. Expand the given rough description into a detailed, professional image generation prompt. Include spatial description, materials, lighting atmosphere, camera angle and perspective, and architectural style. Return ONLY the improved prompt text in 2-4 concise sentences — no explanation, no preamble, no quotes.';
+  var url  = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + S.key;
+  var body = {
+    systemInstruction: { parts: [{ text: sysInstr }] },
+    contents: [{ role: 'user', parts: [{ text: text }] }],
+    generationConfig: { temperature: 0.7 }
+  };
+  fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var parts = (((data.candidates || [])[0] || {}).content || {}).parts || [];
+      var improved = parts.reduce(function(acc, p) { return acc + (p.text || ''); }, '').trim();
+      if (improved) {
+        ta.value = improved.slice(0, 800);
+        ta.dispatchEvent(new Event('input'));
+        showToast('✨ Prompt ausformuliert — prüfe das Ergebnis');
+      } else {
+        showToast('Kein Ergebnis — versuche es erneut');
+      }
+    })
+    .catch(function() { showToast('Fehler beim Verbessern'); })
+    .finally(function() { btn.disabled = false; btn.textContent = '✨'; });
+}
+
+/* ── DOWNLOAD ALL ── */
+function downloadAll() {
+  var imgs = [];
+  document.querySelectorAll('#results-body .img-card').forEach(function(card) {
+    var img = card.querySelector('.img-wrap img');
+    var promptEl = card.querySelector('.img-prompt');
+    if (img && img.src.startsWith('data:')) {
+      imgs.push({ src: img.src, prompt: promptEl ? (promptEl.title || promptEl.textContent) : 'image' });
+    }
+  });
+  if (!imgs.length) { showToast('Keine Bilder zum Herunterladen'); return; }
+  imgs.forEach(function(item, i) {
+    setTimeout(function() {
+      var a = document.createElement('a');
+      a.href = item.src;
+      a.download = 'nanoBanana_' + String(i + 1).padStart(2, '0') + '_' + item.prompt.slice(0, 24).replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.png';
+      a.click();
+    }, i * 380);
+  });
+  showToast('↓ ' + imgs.length + (imgs.length === 1 ? ' Bild wird' : ' Bilder werden') + ' heruntergeladen…');
 }
 
 /* ── HELP ── */

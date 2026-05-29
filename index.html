@@ -591,8 +591,8 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
           </p>
           <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
             <span style="font-size:10px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:20px;padding:2px 9px;color:rgba(74,222,128,0.9);">⚡ FLUX.1 Schnell · ~5 Sek</span>
-            <span style="font-size:10px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:20px;padding:2px 9px;color:rgba(74,222,128,0.9);">✦ FLUX.1 Dev · ~30 Sek</span>
-            <span style="font-size:10px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:20px;padding:2px 9px;color:rgba(74,222,128,0.9);">💶 0,00 € / Bild</span>
+            <span style="font-size:10px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:20px;padding:2px 9px;color:rgba(74,222,128,0.9);">🎨 FLUX Realism · photorealistisch</span>
+            <span style="font-size:10px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:20px;padding:2px 9px;color:rgba(74,222,128,0.9);">💶 0,00 € · kein Login nötig</span>
           </div>
         </div>
         <div id="free-not-configured" style="display:none;background:var(--red-bg);border:1px solid rgba(229,57,53,0.18);border-radius:var(--r-sm);padding:10px 12px;font-size:12px;color:#f87171;margin-bottom:16px;line-height:1.55;">
@@ -605,7 +605,8 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
         <button class="btn btn-primary btn-full" id="btn-free-login" style="background:linear-gradient(135deg,#16a34a,#059669);">🌲 Kostenlos starten</button>
         <p style="margin-top:12px;font-size:11px;color:var(--dim);text-align:center;line-height:1.6;">
           Nur FLUX-Modelle verfügbar · kein API-Key nötig<br>
-          <a href="https://blackforestlabs.ai" target="_blank" rel="noopener" style="color:rgba(74,222,128,0.7);text-decoration:none;">blackforestlabs.ai</a>
+          Modell: <a href="https://blackforestlabs.ai" target="_blank" rel="noopener" style="color:rgba(74,222,128,0.7);text-decoration:none;">Black Forest Labs</a> ·
+          Engine: <a href="https://pollinations.ai" target="_blank" rel="noopener" style="color:rgba(74,222,128,0.7);text-decoration:none;">Pollinations.ai</a>
         </p>
       </div>
     </div>
@@ -645,19 +646,11 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
               <option value="imagen-4.0-generate-001">Imagen 4 Standard · ~0,04 €</option>
               <option value="imagen-4.0-ultra-generate-001">Imagen 4 Ultra · ~0,06 €</option>
             </optgroup>
-            <optgroup label="FLUX · Black Forest Labs 🇩🇪 (HuggingFace · kostenlos)">
-              <option value="black-forest-labs/FLUX.1-schnell">FLUX.1 Schnell · kostenlos · ~5 Sek</option>
-              <option value="black-forest-labs/FLUX.1-dev">FLUX.1 Dev · kostenlos · besser · ~30 Sek</option>
+            <optgroup label="FLUX · Black Forest Labs 🇩🇪 (Pollinations.ai · kostenlos)">
+              <option value="pollinations-flux">FLUX.1 Schnell · kostenlos · ~5 Sek</option>
+              <option value="pollinations-flux-realism">FLUX Realism · kostenlos · photorealistisch</option>
             </optgroup>
           </select>
-        </div>
-
-        <div class="pgrp" id="grp-hf-token" style="display:none;">
-          <div class="pgrp-lbl">🤗 HuggingFace Token</div>
-          <input class="ctrl-pw" type="password" id="hf-token-input" placeholder="hf_…" autocomplete="off" spellcheck="false">
-          <p class="param-note" style="margin-top:6px;">
-            Kostenlos bei <strong style="color:var(--text);">huggingface.co</strong> → Settings → Access Tokens → New Token (Read). Wird lokal gespeichert.
-          </p>
         </div>
 
         <div class="pgrp" id="grp-temp">
@@ -1055,8 +1048,7 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
 var APP_PIN          = '55116';
 var WORKSHOP_PASS    = 'SoSe2026!?!';
 var WORKSHOP_KEY_ENC = 'QVEuQWI4Uk42STM0S25kWldUakFkYWZZOExDU0huUHRsc1pBNnkwaTM0YTRrMjU1aFJNNGc=';
-/* HuggingFace Token für kostenlosen FLUX-Zugang (als Fragmente gespeichert) */
-var FREE_HF_KEY_ENC  = ['aGZfanpXaGVuc', 'lJTVGRSVUlzSF', 'lFVnlwRkx4V0x', '1cGVpVVRGeA=='];
+/* Kostenloser FLUX-Zugang via Pollinations.ai — kein Token nötig */
 var TRACKER_URL = 'https://script.google.com/macros/s/AKfycbyENdn9zOo0k817sBG8jUzEjE2Pew4HOCFbSm08fJaj_IIHVspm4WAHhxKl78-OXlDf/exec';
 
 /* ── CONSTANTS ── */
@@ -1071,8 +1063,8 @@ const COSTS = {
   'imagen-4.0-fast-generate-001':        0.020,
   'imagen-4.0-generate-001':             0.040,
   'imagen-4.0-ultra-generate-001':       0.060,
-  'black-forest-labs/FLUX.1-schnell':    0,
-  'black-forest-labs/FLUX.1-dev':        0
+  'pollinations-flux':                   0,
+  'pollinations-flux-realism':           0
 };
 const MODEL_LABEL = {
   'gemini-2.5-flash-image':              'Gemini 2.5 Flash',
@@ -1081,8 +1073,8 @@ const MODEL_LABEL = {
   'imagen-4.0-fast-generate-001':        'Imagen 4 Fast',
   'imagen-4.0-generate-001':             'Imagen 4 Standard',
   'imagen-4.0-ultra-generate-001':       'Imagen 4 Ultra',
-  'black-forest-labs/FLUX.1-schnell':    'FLUX.1 Schnell',
-  'black-forest-labs/FLUX.1-dev':        'FLUX.1 Dev'
+  'pollinations-flux':                   'FLUX.1 Schnell',
+  'pollinations-flux-realism':           'FLUX Realism'
 };
 
 /* ── LANGUAGE / I18N ── */
@@ -1311,17 +1303,6 @@ function switchSetupTab(tab) {
     q('#tab-'  + t).classList.toggle('on', t === tab);
     q('#pane-' + t).classList.toggle('on', t === tab);
   });
-  if (tab === 'free') {
-    var notConf = q('#free-not-configured');
-    var btn     = q('#btn-free-login');
-    if (!FREE_HF_KEY_ENC) {
-      if (notConf) notConf.style.display = '';
-      if (btn)     btn.disabled = true;
-    } else {
-      if (notConf) notConf.style.display = 'none';
-      if (btn)     btn.disabled = false;
-    }
-  }
 }
 
 /* ── API-KEY LOGIN ── */
@@ -1339,21 +1320,14 @@ q('#name-input').addEventListener('keydown', function(e) {
 q('#btn-free-login').addEventListener('click', doFreeLogin);
 q('#free-name-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') doFreeLogin(); });
 
-function decodeFreeKey() {
-  /* Fragmente werden erst zur Laufzeit zusammengesetzt */
-  return FREE_HF_KEY_ENC ? atob(FREE_HF_KEY_ENC.join('')) : '';
-}
-
 function doFreeLogin() {
-  if (!FREE_HF_KEY_ENC) return;
-  var name  = q('#free-name-input').value.trim() || 'Gast';
+  var name = q('#free-name-input').value.trim() || 'Gast';
   sessionStorage.setItem('nb_free', '1');
   sessionStorage.setItem('nb_name', name);
   sessionStorage.removeItem('nb_key');
   sessionStorage.removeItem('nb_workshop');
-  S.hfKey = decodeFreeKey();
-  S.name  = name;
-  S.key   = '';
+  S.name = name;
+  S.key  = '';
   launchApp('');
 }
 
@@ -1407,10 +1381,9 @@ function doWorkshopLogin() {
 
 /* ── AUTO-LOGIN ── */
 (function() {
-  if (sessionStorage.getItem('nb_free') === '1' && FREE_HF_KEY_ENC) {
-    S.hfKey = decodeFreeKey();
-    S.name  = sessionStorage.getItem('nb_name') || 'Gast';
-    S.key   = '';
+  if (sessionStorage.getItem('nb_free') === '1') {
+    S.name = sessionStorage.getItem('nb_name') || 'Gast';
+    S.key  = '';
     launchApp('');
     return;
   }
@@ -1538,15 +1511,6 @@ function launchApp(key) {
   initResize();
   initPinModal();
   loadHistory();
-  /* HF-Token: Free-Mode hat eingebetteten Key; sonst aus localStorage */
-  if (!isFree) {
-    var savedHfKey = localStorage.getItem('nb_hf_key');
-    if (savedHfKey) {
-      S.hfKey = savedHfKey;
-      q('#hf-token-input').value = savedHfKey;
-      q('#hf-token-input').classList.add('ok');
-    }
-  }
   /* Free-Mode: nur FLUX-Modelle zulassen */
   if (isFree) applyFreeMode();
   setLang(LANG);
@@ -1557,12 +1521,10 @@ function applyFreeMode() {
   Array.from(q('#sel-model').querySelectorAll('optgroup')).forEach(function(og) {
     og.disabled = og.label.indexOf('FLUX') === -1;
   });
-  /* FLUX.1 Schnell als Standard */
-  q('#sel-model').value = 'black-forest-labs/FLUX.1-schnell';
-  S.model = 'black-forest-labs/FLUX.1-schnell';
+  q('#sel-model').value = 'pollinations-flux';
+  S.model = 'pollinations-flux';
   updateModelStatus();
   applyParamVisibility();
-  /* Thinking-Sektion komplett sperren im Free-Mode */
   q('#grp-think').style.display = 'none';
 }
 
@@ -1605,7 +1567,7 @@ function initResize() {
 function initParams() {
   q('#sel-model').addEventListener('change', function(e) {
     /* Free-Mode: Nur FLUX erlaubt */
-    if (sessionStorage.getItem('nb_free') === '1' && !e.target.value.startsWith('black-forest-labs')) {
+    if (sessionStorage.getItem('nb_free') === '1' && !e.target.value.startsWith('pollinations')) {
       e.target.value = S.model; /* zurücksetzen */
       showToast('Im kostenlosen Modus nur FLUX-Modelle verfügbar');
       return;
@@ -1648,13 +1610,6 @@ function initParams() {
   q('#btn-dice').addEventListener('click', function() {
     q('#seed-input').value = Math.floor(Math.random() * 2147483647);
   });
-  q('#hf-token-input').addEventListener('input', function() {
-    var k = q('#hf-token-input').value.trim();
-    var valid = k.startsWith('hf_') && k.length >= 20;
-    q('#hf-token-input').classList.toggle('ok', valid);
-    if (valid) { S.hfKey = k; localStorage.setItem('nb_hf_key', k); }
-    else if (!k) { S.hfKey = ''; localStorage.removeItem('nb_hf_key'); }
-  });
   applyParamVisibility();
 }
 
@@ -1674,7 +1629,7 @@ function applyParamVisibility() {
   var m = S.model;
   var isGemini = m.startsWith('gemini');
   var isImagen = m.startsWith('imagen');
-  var isFlux   = m.startsWith('black-forest-labs');
+  var isFlux   = m.startsWith('pollinations');
 
   setOff('grp-output', !isGemini);
   setOff('grp-temp',   !isGemini);
@@ -1696,9 +1651,6 @@ function applyParamVisibility() {
   setOff('grp-sysctx',  !isGemini);
   q('#btn-improve').style.display  = isGemini ? '' : 'none';
   q('#mode-row').style.display     = isGemini ? '' : 'none';
-  /* HF-Token nur zeigen wenn FLUX gewählt UND KEIN Free-Mode (dort ist Key eingebettet) */
-  var isFreeMode = sessionStorage.getItem('nb_free') === '1';
-  q('#grp-hf-token').style.display = (isFlux && !isFreeMode) ? '' : 'none';
   updateUploadWarning();
 }
 
@@ -1788,7 +1740,7 @@ function clearInputImages() {
 
 function updateUploadWarning() {
   var show = S.inputImages.length > 0 &&
-             (S.model.startsWith('imagen') || S.model.startsWith('black-forest-labs'));
+             (S.model.startsWith('imagen') || S.model.startsWith('pollinations'));
   q('#upload-warn').style.display = show ? 'block' : 'none';
 }
 
@@ -1885,13 +1837,13 @@ function generate() {
   var t0 = Date.now();
   var inputCount = S.inputImages.length;
   var isImagen   = S.model.startsWith('imagen');
-  var isFlux     = S.model.startsWith('black-forest-labs');
+  var isFlux     = S.model.startsWith('pollinations');
   /* Imagen-API unterstützt keinen seed — Gemini und FLUX schon */
   var usedSeed   = isImagen ? null : getSeed();
   if (!isImagen && usedSeed === null) usedSeed = Math.floor(Math.random() * 2147483647) + 1;
   var promise;
   if (isImagen)    promise = callImagen(text);
-  else if (isFlux) promise = callHuggingFace(text, usedSeed);
+  else if (isFlux) promise = callPollinations(text, usedSeed);
   else             promise = callGemini(text, usedSeed);
 
   promise.then(function(images) {
@@ -2005,7 +1957,7 @@ function callImagen(prompt) {
   });
 }
 
-/* ── HUGGING FACE / FLUX API ── */
+/* ── POLLINATIONS.AI / FLUX API ── */
 var FLUX_SIZES = {
   '1:1':  { width: 1024, height: 1024 },
   '4:3':  { width: 1152, height: 896  },
@@ -2014,70 +1966,38 @@ var FLUX_SIZES = {
   '9:16': { width: 768,  height: 1360 }
 };
 
-function callHuggingFace(prompt, seed) {
-  if (!S.hfKey) {
-    return Promise.reject({
-      code: 0, msg: 'Kein HuggingFace Token eingegeben.',
-      hints: ['Token im Feld unter der Modellauswahl eintragen.',
-              'Kostenlos: huggingface.co → Settings → Access Tokens → New Token (Read)']
-    });
-  }
-  var sz     = FLUX_SIZES[S.ratio] || FLUX_SIZES['1:1'];
-  var params = { width: sz.width, height: sz.height };
-  if (S.model === 'black-forest-labs/FLUX.1-schnell') {
-    params.num_inference_steps = 4;
-    params.guidance_scale      = 0.0;
-  }
-  if (seed !== null && seed !== undefined) params.seed = seed;
+function callPollinations(prompt, seed) {
+  var sz    = FLUX_SIZES[S.ratio] || FLUX_SIZES['1:1'];
+  var model = S.model === 'pollinations-flux-realism' ? 'flux-realism' : 'flux';
+  var url   = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt)
+    + '?width='   + sz.width
+    + '&height='  + sz.height
+    + '&model='   + model
+    + '&nologo=true'
+    + '&enhance=false'
+    + (seed ? '&seed=' + seed : '');
 
-  var hfUrl = 'https://api-inference.huggingface.co/models/' + S.model;
-  return fetch(hfUrl, {
-    method: 'POST',
-    headers: {
-      'Authorization':    'Bearer ' + S.hfKey,
-      'Content-Type':     'application/json',
-      'X-Wait-For-Model': 'true'
-    },
-    body: JSON.stringify({ inputs: prompt, parameters: params })
-  })
-  .catch(function(err) {
-    var isCors = err && (err.name === 'TypeError' || err.name === 'NetworkError');
-    return Promise.reject({
-      code: 0,
-      msg: isCors ? 'CORS / Zugriff verweigert — Modell-Lizenz noch nicht akzeptiert?' : 'Netzwerkfehler — HuggingFace nicht erreichbar.',
-      hints: isCors
-        ? ['Einmalig auf huggingface.co einloggen und Lizenz akzeptieren:',
-           '→ huggingface.co/black-forest-labs/FLUX.1-schnell → "Agree and access"',
-           '→ huggingface.co/black-forest-labs/FLUX.1-dev → "Agree and access"']
-        : ['Internetverbindung prüfen.']
-    });
-  })
-  .then(function(res) {
-    if (!res.ok) {
-      return res.json().catch(function() { return {}; }).then(function(j) {
-        var m = (j && (j.error || j.message)) || ('HTTP ' + res.status);
-        var hints;
-        if (res.status === 401) hints = ['HuggingFace Token ungültig — bitte neu eingeben.'];
-        else if (res.status === 403) hints = ['Modell-Lizenz noch nicht akzeptiert.', '→ huggingface.co/black-forest-labs/FLUX.1-schnell öffnen → "Agree and access" klicken.'];
-        else if (res.status === 503) hints = ['Modell startet gerade (Cold Start) — 30–60 Sek warten und erneut versuchen.'];
-        else if (res.status === 429) hints = ['Rate Limit erreicht — kurz warten und erneut versuchen.'];
-        else hints = ['Unbekannter Fehler.'];
-        return Promise.reject({ code: res.status, msg: m, hints: hints });
+  return fetch(url)
+    .catch(function() {
+      return Promise.reject({ code: 0, msg: 'Netzwerkfehler — Pollinations.ai nicht erreichbar.', hints: ['Internetverbindung prüfen.'] });
+    })
+    .then(function(res) {
+      if (!res.ok) {
+        return Promise.reject({ code: res.status, msg: 'Fehler beim Generieren (HTTP ' + res.status + ')', hints: ['Prompt anpassen oder erneut versuchen.', 'Kein API-Key nötig — bitte erneut versuchen.'] });
+      }
+      return res.blob();
+    })
+    .then(function(blob) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+          var b64 = reader.result.split(',')[1];
+          b64 ? resolve([b64]) : reject({ code: 0, msg: 'Bild konnte nicht gelesen werden.', hints: [] });
+        };
+        reader.onerror = function() { reject({ code: 0, msg: 'FileReader-Fehler.', hints: [] }); };
+        reader.readAsDataURL(blob);
       });
-    }
-    return res.blob();
-  })
-  .then(function(blob) {
-    return new Promise(function(resolve, reject) {
-      var reader = new FileReader();
-      reader.onloadend = function() {
-        var b64 = reader.result.split(',')[1];
-        b64 ? resolve([b64]) : reject({ code: 0, msg: 'Bild konnte nicht gelesen werden.', hints: [] });
-      };
-      reader.onerror = function() { reject({ code: 0, msg: 'FileReader-Fehler.', hints: [] }); };
-      reader.readAsDataURL(blob);
     });
-  });
 }
 
 /* ── FETCH ── */

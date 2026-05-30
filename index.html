@@ -456,15 +456,6 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
 .help-close-btn { width: 28px; height: 28px; border-radius: 50%; background: var(--s3); border: 1px solid var(--bd-hi); color: var(--muted); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.12s; flex-shrink: 0; }
 .help-close-btn:hover { background: var(--red); color: #fff; }
 
-/* ── STYLE CHIPS ── */
-.style-chips { display: flex; flex-wrap: wrap; gap: 4px; }
-.style-chip {
-  font-size: 11px; padding: 3px 9px; border-radius: 20px; cursor: pointer;
-  background: transparent; border: 1px solid var(--bd); color: var(--muted);
-  transition: all 0.12s; white-space: nowrap; line-height: 1.4;
-}
-.style-chip:hover { background: var(--s3); color: var(--text); border-color: var(--bd-hi); }
-.style-chip:active { transform: scale(0.95); }
 
 /* ── TEMPLATE PANEL ── */
 .gen-row-wrap { position: relative; }
@@ -750,11 +741,6 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
           <p class="param-note" style="margin-top:4px;">Erlaubt realistische Personendarstellung.</p>
         </div>
 
-        <div class="pgrp">
-          <div class="pgrp-lbl"><span data-i18n="lbl-style">Stil anfügen</span> <span id="style-note" data-i18n="style-note" style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">— klick hängt Stil ans Prompt an</span></div>
-          <div class="style-chips" id="style-chips"></div>
-        </div>
-
         <div class="pgrp pgrp-seed">
           <div class="pgrp-lbl">Seed <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">— für alle Modelle</span></div>
           <div class="seed-row">
@@ -872,7 +858,7 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
         <h3>🚀 Schnellstart</h3>
         <ul>
           <li><strong>Prompt eingeben</strong> — Beschreibe dein Bild. Englisch für Stilbegriffe empfohlen, Deutsch funktioniert auch.</li>
-          <li><strong>📋 Vorlagen</strong> — 40 Prompts in 7 Kategorien. Klicken → einfügen → <strong>Tab</strong> springt zum nächsten [Platzhalter]</li>
+          <li><strong>📋 Vorlagen</strong> — 44 Prompts in 7 Kategorien. Klicken → einfügen → <strong>Tab</strong> springt zum nächsten [Platzhalter]</li>
           <li><strong>✨</strong> — Prompt automatisch mit KI verbessern und ausformulieren</li>
           <li><strong>✕</strong> — Prompt-Feld leeren</li>
           <li><strong>⚡ Generieren</strong> klicken oder <strong>Strg+Enter</strong></li>
@@ -958,7 +944,7 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
         <h3>🚀 Quick Start</h3>
         <ul>
           <li><strong>Enter a prompt</strong> — Describe your image. English recommended for style terms, German works too.</li>
-          <li><strong>📋 Templates</strong> — 40 prompts in 7 categories. Click → insert → <strong>Tab</strong> jumps to next [placeholder]</li>
+          <li><strong>📋 Templates</strong> — 44 prompts in 7 categories. Click → insert → <strong>Tab</strong> jumps to next [placeholder]</li>
           <li><strong>✨</strong> — Auto-improve and expand the prompt using AI</li>
           <li><strong>✕</strong> — Clear the prompt field</li>
           <li>Click <strong>⚡ Generate</strong> or press <strong>Ctrl+Enter</strong></li>
@@ -1112,8 +1098,6 @@ var I18N = {
     'lbl-res':            'Auflösung',
     'lbl-neg':            'Negativer Prompt',
     'lbl-safety':         'Sicherheitsfilter',
-    'lbl-style':          'Stil anfügen',
-    'style-note':         '— klick hängt Stil ans Prompt an',
     'btn-upload':         '📎 Bilder',
     'btn-tmpl':           '📋 Vorlagen',
     'btn-gen':            '⚡ Generieren',
@@ -1213,11 +1197,6 @@ var SYS_INSTRUCTIONS = {
 };
 
 /* ── STYLE CHIPS ── */
-var STYLE_CHIPS = [
-  'Photorealistic', 'Line drawing', 'Pencil sketch', 'Watercolour render', 'Axonometric view',
-  'Bauhaus', 'Japandi', 'Wabi-Sabi', 'Brutalist', 'Minimalist', 'Mid-Century Modern',
-  'Biophilic', 'Deconstructivist'
-];
 
 var TEMPLATES = [
   { cat: '🏗 Architektur & Landschaft', items: [
@@ -1292,7 +1271,15 @@ var TEMPLATES = [
     { name: 'Architekturstil übertragen',
       text: 'Transform the architectural and interior style of this image to [TARGET STYLE: e.g. Japandi / Wabi-Sabi / Art Deco / Bauhaus / Tropical Modernism / Nordic brutalism].\nKey characteristics to apply: [STYLE FEATURES: e.g. natural materials, muted earth tones, clean horizontal lines, integration of indoor plants].\nMaintain the same spatial composition, room layout, proportions, and camera angle unchanged.' },
     { name: 'Mood Board',
-      text: 'Create a cohesive interior design mood board for a [ROOM TYPE: e.g. private apartment / boutique hotel lobby / high-end restaurant].\nStyle direction: [STYLE DIRECTION: e.g. warm minimalism / eclectic luxury / biophilic / industrial].\nColour palette: [COLOUR PALETTE: e.g. warm sand, muted sage, deep charcoal, soft terracotta accents].\nMaterials and textures: [MATERIALS: e.g. linen, honed marble, smoked oak, hand-woven rattan, brushed brass].\nMood: [ATMOSPHERE: e.g. calm and restorative / vibrant and layered / timeless and understated].\nProfessional layout, clean composition.' }
+      text: 'Create a cohesive interior design mood board for a [ROOM TYPE: e.g. private apartment / boutique hotel lobby / high-end restaurant].\nStyle direction: [STYLE DIRECTION: e.g. warm minimalism / eclectic luxury / biophilic / industrial].\nColour palette: [COLOUR PALETTE: e.g. warm sand, muted sage, deep charcoal, soft terracotta accents].\nMaterials and textures: [MATERIALS: e.g. linen, honed marble, smoked oak, hand-woven rattan, brushed brass].\nMood: [ATMOSPHERE: e.g. calm and restorative / vibrant and layered / timeless and understated].\nProfessional layout, clean composition.' },
+    { name: 'Linienzeichnung / Line Drawing',
+      text: 'Transform this image into a clean architectural line drawing.\nStyle: [DRAWING STYLE: e.g. precise technical ink lines / bold graphic lines / delicate fine lines / architectural construction lines].\nLine weight: [LINES: e.g. single weight uniform / varied weights with visual hierarchy / thick outline with thin infill].\nDetail: [DETAIL: e.g. minimal abstraction / medium architectural detail / highly detailed].\nBackground: [BACKGROUND: e.g. pure white / warm cream paper / light grey].\nNo shading, no fills — clean line work only.' },
+    { name: 'Bleistiftskizze / Pencil Sketch',
+      text: 'Transform this image into a hand-drawn pencil sketch.\nStyle: [STYLE: e.g. loose gestural study / careful observational drawing / architectural presentation sketch / quick concept sketch].\nShading: [SHADING: e.g. light hatching / cross-hatching / soft tonal shading / minimal shading].\nPaper: [PAPER: e.g. clean white / warm cream / sketchbook texture].\nFinish: [FINISH: e.g. rough and gestural / medium finished / polished presentation drawing].\nHand-drawn quality, natural line variation.' },
+    { name: 'Aquarellrender / Watercolour Render',
+      text: 'Transform this architectural or interior image into a watercolour render.\nStyle: [STYLE: e.g. loose and expressive / tight and controlled / editorial / classical architectural watercolour].\nPalette: [PALETTE: e.g. warm earth tones / cool blues and greys / vibrant / monochrome wash].\nPaper: [PAPER: e.g. white with visible texture / wet-on-wet soft edges / dry brush with detail].\nInclude: [ELEMENTS: e.g. loose entourage and people / minimal — architecture only / lush plants and atmosphere].\nWatercolour on paper — visible brushstrokes, natural colour bleeds, white paper showing through.' },
+    { name: 'Axonometrie / Isometrie',
+      text: 'Generate an axonometric architectural drawing of this space or object.\nProjection: [PROJECTION: e.g. isometric 30/30° / dimetric 45° bird\'s eye / top-down axonometric plan view].\nStyle: [DRAWING STYLE: e.g. clean line drawing / coloured flat surfaces / watercolour wash with line / technical ink with shading].\nContent: [CONTENT: e.g. room with furniture / building exterior / furniture piece / urban block].\nDetail: [DETAIL: e.g. schematic and abstract / medium architectural detail / fully detailed with materials].\nBackground: [BACKGROUND: e.g. pure white / light grid / transparent].\nParallel projection — no perspective, all lines remain parallel.' }
   ]},
   { cat: '🔧 Optimierung', items: [
     { name: 'Raum aufräumen / Staging',
@@ -1558,7 +1545,6 @@ function launchApp(key) {
   initPrompt();
   initUpload();
   initTemplates();
-  initStyleChips();
   initUIEvents();
   initHelp();
   initResize();
@@ -2382,29 +2368,6 @@ function insertTemplate(text) {
   }, 50);
 }
 
-/* ── STYLE CHIPS ── */
-function initStyleChips() {
-  var container = q('#style-chips');
-  STYLE_CHIPS.forEach(function(style) {
-    var btn = document.createElement('button');
-    btn.className = 'style-chip';
-    btn.textContent = style;
-    btn.addEventListener('click', function() {
-      var ta = q('#prompt');
-      var v = ta.value.trimEnd();
-      var append = ', ' + style + ' style';
-      if (v.length + append.length <= 800) {
-        ta.value = v + append;
-        ta.dispatchEvent(new Event('input'));
-        ta.focus();
-        showToast('✚ ' + style);
-      } else {
-        showToast('Prompt zu lang für diesen Stil');
-      }
-    });
-    container.appendChild(btn);
-  });
-}
 
 /* ── IMPROVE PROMPT ── */
 function improvePrompt() {

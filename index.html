@@ -598,9 +598,10 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
       </div>
 
     </div>
-    <div style="margin-top:20px;text-align:center;font-size:11px;color:var(--dim);line-height:1.8;">
+    <div style="margin-top:20px;text-align:center;font-size:11px;color:var(--dim);line-height:1.9;">
       Optimiert für Laptop und Tablet · nicht für Smartphone<br>
-      v1.1 · Build Mai 2026 · Klaus Teltenkötter
+      <span style="font-weight:300;letter-spacing:0.2px;">Prof. Klaus Teltenkötter &thinsp;|&thinsp; Digitales Entwerfen &thinsp;|&thinsp; Innenarchitektur &thinsp;|&thinsp; Hochschule Mainz</span><br>
+      v1.1 · Build Mai 2026
     </div>
   </div>
 </div>
@@ -2252,6 +2253,7 @@ function initTemplates() {
       '<span class="tmpl-head-title">📋 Prompt-Vorlagen</span>' +
       '<div style="display:flex;gap:4px;">' +
         '<button class="btn btn-ghost" id="tmpl-pdf-btn" title="Alle Vorlagen als PDF" style="padding:3px 8px;font-size:11px;line-height:1;">↓ PDF</button>' +
+        '<a class="btn btn-ghost" id="tmpl-gallery-btn" href="https://teltenkoetter.github.io/ki-studio/galerie/" target="_blank" title="Beispielbilder zu allen Vorlagen" style="padding:3px 8px;font-size:11px;line-height:1;text-decoration:none;">↗ Galerie</a>' +
         '<button class="btn btn-ghost tmpl-close-x" style="padding:3px 8px;font-size:12px;line-height:1;">✕</button>' +
       '</div>' +
     '</div>' +
@@ -2314,7 +2316,9 @@ function downloadTemplatesPDF() {
       '.item-text{font-size:10px;color:#444;white-space:pre-wrap;line-height:1.55;}' +
       '@media print{body{padding:20px 28px;}h2{margin-top:18px;}}' +
     '</style></head><body>';
-  html += '<h1><b>KI</b> studio</h1><p class="sub">Prompt-Vorlagen · ' + TEMPLATES.reduce(function(a,c){return a+c.items.length;},0) + ' Vorlagen in ' + TEMPLATES.length + ' Kategorien · KI Studio · Hochschule Mainz</p>';
+  html += '<h1><b>KI</b> studio</h1>' +
+    '<p style="font-size:10px;font-weight:300;color:#999;margin:2px 0 4px;letter-spacing:0.2px;">Prof. Klaus Teltenkötter &thinsp;|&thinsp; Digitales Entwerfen &thinsp;|&thinsp; Innenarchitektur &thinsp;|&thinsp; Hochschule Mainz</p>' +
+    '<p class="sub">Prompt-Vorlagen · ' + TEMPLATES.reduce(function(a,c){return a+c.items.length;},0) + ' Vorlagen in ' + TEMPLATES.length + ' Kategorien</p>';
   TEMPLATES.forEach(function(cat) {
     html += '<h2>' + cat.cat + '</h2>';
     cat.items.forEach(function(item) {

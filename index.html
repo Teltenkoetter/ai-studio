@@ -517,22 +517,25 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
 <div id="screen-setup" class="screen active">
   <div class="setup-wrap">
     <div class="setup-logo">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
+        <button class="lang-btn" id="btn-lang-setup" title="Switch to English" onclick="setLang(LANG==='de'?'en':'de')">EN</button>
+      </div>
       <h1 style="font-size:30px;letter-spacing:-0.5px;font-weight:400;"><span style="font-weight:700;">KI</span> <span style="font-weight:300;">Studio</span></h1>
-      <p class="sub">KI-Bildgenerierung für Innenarchitektur und Architektur</p>
+      <p class="sub" data-i18n="login-subtitle">KI-Bildgenerierung für Innenarchitektur und Architektur</p>
       <p class="sub" style="margin-top:3px;opacity:0.55;">Nano Banana &amp; Black Forest Labs</p>
     </div>
     <div class="setup-card">
       <!-- Tabs -->
       <div class="setup-tabs">
-        <button class="setup-tab-btn on" id="tab-ws" onclick="switchSetupTab('ws')">🎓 Lehre</button>
+        <button class="setup-tab-btn on" id="tab-ws" onclick="switchSetupTab('ws')" data-i18n="tab-ws">🎓 Lehre</button>
         <button class="setup-tab-btn" id="tab-api" onclick="switchSetupTab('api')">🔑 API-Key</button>
-        <button class="setup-tab-btn" id="tab-free" onclick="switchSetupTab('free')">🆓 Kostenlos</button>
+        <button class="setup-tab-btn" id="tab-free" onclick="switchSetupTab('free')" data-i18n="tab-free">🆓 Kostenlos</button>
       </div>
 
       <!-- Pane: Eigener API-Key -->
       <div class="setup-pane" id="pane-api">
-        <p class="desc">Du benötigst einen eigenen <strong>Google Gemini API-Key</strong>. Dieser erfordert ein Google-Konto mit <strong>hinterlegter Kreditkarte</strong> — die Nutzung wird pro generiertem Bild abgerechnet (ca. 0,02–0,13 € je nach Modell). Google bietet wahlweise ein monatliches Budget oder direkte Abrechnung nach Verbrauch.</p>
-        <div style="background:var(--s2);border:1px solid var(--bd);border-radius:var(--r-sm);padding:11px 13px;margin-bottom:14px;font-size:12px;line-height:1.8;color:var(--muted);">
+        <p class="desc" data-i18n="api-desc">Du benötigst einen eigenen <strong>Google Gemini API-Key</strong>. Dieser erfordert ein Google-Konto mit <strong>hinterlegter Kreditkarte</strong> — die Nutzung wird pro generiertem Bild abgerechnet (ca. 0,02–0,13 € je nach Modell). Google bietet wahlweise ein monatliches Budget oder direkte Abrechnung nach Verbrauch.</p>
+        <div data-i18n-html="api-howto" style="background:var(--s2);border:1px solid var(--bd);border-radius:var(--r-sm);padding:11px 13px;margin-bottom:14px;font-size:12px;line-height:1.8;color:var(--muted);">
           <strong style="color:var(--text);display:block;margin-bottom:5px;">So bekommst du deinen API-Key:</strong>
           <span style="color:var(--text);">1.</span> <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;text-underline-offset:2px;">aistudio.google.com/apikey</a> öffnen<br>
           <span style="color:var(--text);">2.</span> Mit Google-Account anmelden &amp; <em>„Create API key"</em> klicken<br>
@@ -540,39 +543,39 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
         </div>
         <div class="warn-box">
           <span>⚠️</span>
-          <span><strong>Sicherheit:</strong> Diesen Key niemals weitergeben — er ist nur im aktuellen Browser-Tab gespeichert und wird beim Schließen automatisch gelöscht.</span>
+          <span data-i18n-html="api-security"><strong>Sicherheit:</strong> Diesen Key niemals weitergeben — er ist nur im aktuellen Browser-Tab gespeichert und wird beim Schließen automatisch gelöscht.</span>
         </div>
         <label class="field-lbl" for="key-input">API-Key <span style="color:var(--red);font-weight:700;">*</span></label>
         <div class="input-row">
           <input type="password" id="key-input" placeholder="AIzaSy…" autocomplete="off" spellcheck="false">
-          <div class="field-err" id="key-err">Kein gültiger Google API-Key (erwartet: AIza… oder AQ.…)</div>
+          <div class="field-err" id="key-err" data-i18n="err-key">Kein gültiger Google API-Key (erwartet: AIza… oder AQ.…)</div>
         </div>
-        <label class="field-lbl" for="name-input">Dein Name / Kürzel <span style="color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0;">(optional · für die Kostenübersicht)</span></label>
+        <label class="field-lbl" for="name-input"><span data-i18n="lbl-name">Dein Name / Kürzel</span> <span data-i18n-html="lbl-name-opt" style="color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0;">(optional · für die Kostenübersicht)</span></label>
         <div class="input-row">
-          <input type="text" id="name-input" placeholder="z. B. Julia M." maxlength="40" autocomplete="name" spellcheck="false">
+          <input type="text" id="name-input" data-i18n-placeholder="ph-name" placeholder="z. B. Julia M." maxlength="40" autocomplete="name" spellcheck="false">
         </div>
-        <button class="btn btn-primary btn-full" id="btn-save">Speichern &amp; starten</button>
+        <button class="btn btn-primary btn-full" id="btn-save" data-i18n="btn-save">Speichern &amp; starten</button>
       </div>
 
       <!-- Pane: Zugang Lehre -->
       <div class="setup-pane on" id="pane-ws">
-        <p class="desc">Du hast einen Kurs-Zugang erhalten? Gib das Kurs-Passwort ein.</p>
-        <div style="background:rgba(99,179,237,0.07);border:1px solid rgba(99,179,237,0.2);border-radius:var(--r-sm);padding:9px 12px;margin-bottom:12px;font-size:11px;color:#90cdf4;line-height:1.55;">
+        <p class="desc" data-i18n="ws-desc">Du hast einen Kurs-Zugang erhalten? Gib das Kurs-Passwort ein.</p>
+        <div data-i18n="ws-eduroam" style="background:rgba(99,179,237,0.07);border:1px solid rgba(99,179,237,0.2);border-radius:var(--r-sm);padding:9px 12px;margin-bottom:12px;font-size:11px;color:#90cdf4;line-height:1.55;">
           ℹ️ KI Studio kann im Eduroam-Netz nicht aufgerufen werden. Öffne die App zunächst in einem anderen Netz — danach kannst du sie auch im Eduroam nutzen.
         </div>
-        <div style="background:rgba(251,146,60,0.07);border:1px solid rgba(251,146,60,0.2);border-radius:var(--r-sm);padding:9px 12px;margin-bottom:16px;font-size:11px;color:#fb923c;line-height:1.55;">
+        <div data-i18n="ws-warning" style="background:rgba(251,146,60,0.07);border:1px solid rgba(251,146,60,0.2);border-radius:var(--r-sm);padding:9px 12px;margin-bottom:16px;font-size:11px;color:#fb923c;line-height:1.55;">
           ⚠️ Das Passwort ist vertraulich — bitte nicht weitergeben. Übermäßige Nutzung durch Dritte kann zur Sperrung des Kurs-Zugangs führen.
         </div>
-        <label class="field-lbl" for="ws-pass-input">Passwort <span style="color:var(--red);font-weight:700;">*</span></label>
+        <label class="field-lbl" for="ws-pass-input"><span data-i18n="lbl-password">Passwort</span> <span style="color:var(--red);font-weight:700;">*</span></label>
         <div class="input-row">
-          <input type="password" id="ws-pass-input" placeholder="Kurs-Passwort" autocomplete="off" spellcheck="false">
-          <div class="field-err" id="ws-err">Falsches Passwort — bitte nochmal versuchen.</div>
+          <input type="password" id="ws-pass-input" data-i18n-placeholder="ph-password" placeholder="Kurs-Passwort" autocomplete="off" spellcheck="false">
+          <div class="field-err" id="ws-err" data-i18n="err-password">Falsches Passwort — bitte nochmal versuchen.</div>
         </div>
-        <label class="field-lbl" for="ws-name-input">Dein Name / Kürzel <span style="color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0;">(optional · für die Kostenübersicht)</span></label>
+        <label class="field-lbl" for="ws-name-input"><span data-i18n="lbl-name">Dein Name / Kürzel</span> <span data-i18n-html="lbl-name-opt" style="color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0;">(optional · für die Kostenübersicht)</span></label>
         <div class="input-row">
-          <input type="text" id="ws-name-input" placeholder="z. B. Julia M." maxlength="40" autocomplete="name" spellcheck="false">
+          <input type="text" id="ws-name-input" data-i18n-placeholder="ph-name" placeholder="z. B. Julia M." maxlength="40" autocomplete="name" spellcheck="false">
         </div>
-        <button class="btn btn-primary btn-full" id="btn-ws-login">Einloggen</button>
+        <button class="btn btn-primary btn-full" id="btn-ws-login" data-i18n="btn-login">Einloggen</button>
       </div>
 
       <!-- Pane: Kostenlos (FLUX / Pollinations) -->
@@ -582,19 +585,19 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
             <span style="font-size:22px;line-height:1;">🌲</span>
             <div>
               <div style="font-size:13px;font-weight:700;color:var(--text);">FLUX.1 · Black Forest Labs</div>
-              <div style="font-size:11px;color:var(--muted);margin-top:1px;">Open Source · Freiburg im Breisgau 🇩🇪 · kostenlos</div>
+              <div data-i18n="flux-sub" style="font-size:11px;color:var(--muted);margin-top:1px;">Open Source · Freiburg im Breisgau 🇩🇪 · kostenlos</div>
             </div>
           </div>
-          <p style="font-size:12px;color:var(--muted);line-height:1.6;margin:0;">Weltklasse-Bildgenerierung aus dem Schwarzwald — kein Account, kein API-Key, 0,00 €/Bild.</p>
+          <p data-i18n="flux-desc" style="font-size:12px;color:var(--muted);line-height:1.6;margin:0;">Weltklasse-Bildgenerierung aus dem Schwarzwald — kein Account, kein API-Key, 0,00 €/Bild.</p>
         </div>
-        <div style="background:rgba(251,146,60,0.07);border:1px solid rgba(251,146,60,0.2);border-radius:var(--r-sm);padding:9px 12px;margin-bottom:16px;font-size:11px;color:#fb923c;line-height:1.55;">
+        <div data-i18n-html="flux-warning" style="background:rgba(251,146,60,0.07);border:1px solid rgba(251,146,60,0.2);border-radius:var(--r-sm);padding:9px 12px;margin-bottom:16px;font-size:11px;color:#fb923c;line-height:1.55;">
           ⚠️ <strong>Nur Text → Bild</strong> — kein Bild-Upload möglich. Für den vollen Workflow (Skizze, Foto als Eingabe) bitte den Kurs-Zugang oder eigenen API-Key nutzen.
         </div>
-        <label class="field-lbl" for="free-name-input">Dein Name / Kürzel <span style="color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+        <label class="field-lbl" for="free-name-input"><span data-i18n="lbl-name">Dein Name / Kürzel</span> <span data-i18n="lbl-name-opt-short" style="color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
         <div class="input-row">
-          <input type="text" id="free-name-input" placeholder="z. B. Julia M." maxlength="40" autocomplete="name" spellcheck="false">
+          <input type="text" id="free-name-input" data-i18n-placeholder="ph-name" placeholder="z. B. Julia M." maxlength="40" autocomplete="name" spellcheck="false">
         </div>
-        <button class="btn btn-primary btn-full" id="btn-free-login">🌲 Kostenlos starten</button>
+        <button class="btn btn-primary btn-full" id="btn-free-login" data-i18n="btn-free">🌲 Kostenlos starten</button>
       </div>
 
     </div>
@@ -1118,7 +1121,30 @@ var I18N = {
     'think-off-title':    'Kein Thinking — schnell und günstig',
     'think-low-title':    '1024 Thinking-Tokens — minimaler Effekt, kaum spürbar',
     'think-med-title':    '8192 Thinking-Tokens — kein garantierter Qualitätssprung',
-    'think-high-title':   '24576 Thinking-Tokens — deutlich teurer, Effekt auf Bildqualität unsicher'
+    'think-high-title':   '24576 Thinking-Tokens — deutlich teurer, Effekt auf Bildqualität unsicher',
+    'login-subtitle': 'KI-Bildgenerierung für Innenarchitektur und Architektur',
+    'tab-ws':         '🎓 Lehre',
+    'tab-free':       '🆓 Kostenlos',
+    'api-desc':       'Du benötigst einen eigenen <strong>Google Gemini API-Key</strong>. Dieser erfordert ein Google-Konto mit <strong>hinterlegter Kreditkarte</strong> — die Nutzung wird pro generiertem Bild abgerechnet (ca. 0,02–0,13 € je nach Modell).',
+    'api-howto':      '<strong style="color:var(--text);display:block;margin-bottom:5px;">So bekommst du deinen API-Key:</strong><span style="color:var(--text);">1.</span> <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;text-underline-offset:2px;">aistudio.google.com/apikey</a> öffnen<br><span style="color:var(--text);">2.</span> Mit Google-Account anmelden &amp; <em>„Create API key"</em> klicken<br><span style="color:var(--text);">3.</span> Key kopieren und unten einfügen — fertig.',
+    'api-security':   '<strong>Sicherheit:</strong> Diesen Key niemals weitergeben — er ist nur im aktuellen Browser-Tab gespeichert und wird beim Schließen automatisch gelöscht.',
+    'err-key':        'Kein gültiger Google API-Key (erwartet: AIza… oder AQ.…)',
+    'lbl-name':       'Dein Name / Kürzel',
+    'lbl-name-opt':   '(optional · für die Kostenübersicht)',
+    'lbl-name-opt-short': '(optional)',
+    'ph-name':        'z. B. Julia M.',
+    'btn-save':       'Speichern & starten',
+    'ws-desc':        'Du hast einen Kurs-Zugang erhalten? Gib das Kurs-Passwort ein.',
+    'ws-eduroam':     'ℹ️ KI Studio kann im Eduroam-Netz nicht aufgerufen werden. Öffne die App zunächst in einem anderen Netz — danach kannst du sie auch im Eduroam nutzen.',
+    'ws-warning':     '⚠️ Das Passwort ist vertraulich — bitte nicht weitergeben. Übermäßige Nutzung durch Dritte kann zur Sperrung des Kurs-Zugangs führen.',
+    'lbl-password':   'Passwort',
+    'ph-password':    'Kurs-Passwort',
+    'err-password':   'Falsches Passwort — bitte nochmal versuchen.',
+    'btn-login':      'Einloggen',
+    'flux-sub':       'Open Source · Freiburg im Breisgau 🇩🇪 · kostenlos',
+    'flux-desc':      'Weltklasse-Bildgenerierung aus dem Schwarzwald — kein Account, kein API-Key, 0,00 €/Bild.',
+    'flux-warning':   '⚠️ <strong>Nur Text → Bild</strong> — kein Bild-Upload möglich. Für den vollen Workflow (Skizze, Foto als Eingabe) bitte den Kurs-Zugang oder eigenen API-Key nutzen.',
+    'btn-free':       '🌲 Kostenlos starten'
   },
   en: {
     'lbl-model':          'Model',
@@ -1172,7 +1198,30 @@ var I18N = {
     'think-off-title':    'No thinking — fast and affordable',
     'think-low-title':    '1024 thinking tokens — minimal effect, barely noticeable',
     'think-med-title':    '8192 thinking tokens — no guaranteed quality jump',
-    'think-high-title':   '24576 thinking tokens — significantly more expensive, uncertain effect on image quality'
+    'think-high-title':   '24576 thinking tokens — significantly more expensive, uncertain effect on image quality',
+    'login-subtitle': 'AI Image Generation for Interior and Architecture',
+    'tab-ws':         '🎓 Course',
+    'tab-free':       '🆓 Free',
+    'api-desc':       'You need your own <strong>Google Gemini API key</strong>. This requires a Google account with a <strong>credit card on file</strong> — usage is billed per generated image (approx. €0.02–0.13 depending on model).',
+    'api-howto':      '<strong style="color:var(--text);display:block;margin-bottom:5px;">How to get your API key:</strong><span style="color:var(--text);">1.</span> Open <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;text-underline-offset:2px;">aistudio.google.com/apikey</a><br><span style="color:var(--text);">2.</span> Sign in with your Google account &amp; click <em>"Create API key"</em><br><span style="color:var(--text);">3.</span> Copy the key and paste below — done.',
+    'api-security':   '<strong>Security:</strong> Never share this key — it is stored only in the current browser tab and deleted automatically when closed.',
+    'err-key':        'Not a valid Google API key (expected: AIza… or AQ.…)',
+    'lbl-name':       'Your name / abbreviation',
+    'lbl-name-opt':   '(optional · for cost overview)',
+    'lbl-name-opt-short': '(optional)',
+    'ph-name':        'e.g. Julia M.',
+    'btn-save':       'Save & launch',
+    'ws-desc':        'Have a course access code? Enter the course password below.',
+    'ws-eduroam':     'ℹ️ KI Studio cannot be accessed on the Eduroam network. Open the app on a different network first — after that it works on Eduroam too.',
+    'ws-warning':     '⚠️ The password is confidential — please do not share it. Excessive use by third parties may result in the course access being revoked.',
+    'lbl-password':   'Password',
+    'ph-password':    'Course password',
+    'err-password':   'Wrong password — please try again.',
+    'btn-login':      'Log in',
+    'flux-sub':       'Open Source · Freiburg im Breisgau 🇩🇪 · free',
+    'flux-desc':      'World-class image generation from the Black Forest — no account, no API key, €0.00 per image.',
+    'flux-warning':   '⚠️ <strong>Text → Image only</strong> — no image upload. For the full workflow (sketch, photo as input) use a course login or your own API key.',
+    'btn-free':       '🌲 Start free'
   }
 };
 
@@ -1194,6 +1243,10 @@ function setLang(l) {
     var val = t(el.getAttribute('data-i18n'));
     if (val !== undefined) el.textContent = val;
   });
+  document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+    var val = t(el.getAttribute('data-i18n-html'));
+    if (val !== undefined) el.innerHTML = val;
+  });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
     var val = t(el.getAttribute('data-i18n-placeholder'));
     if (val !== undefined) el.placeholder = val;
@@ -1202,6 +1255,12 @@ function setLang(l) {
     var val = t(el.getAttribute('data-i18n-title'));
     if (val !== undefined) el.title = val;
   });
+  /* Sync both lang buttons */
+  var setupBtn = q('#btn-lang-setup');
+  if (setupBtn) {
+    setupBtn.textContent = l === 'de' ? 'EN' : 'DE';
+    setupBtn.title = l === 'de' ? 'Switch to English' : 'Zu Deutsch wechseln';
+  }
   /* Template panel: re-render category buttons and items with correct language */
   if (q('#tmpl-cats')) {
     q('#tmpl-cats').querySelectorAll('.tmpl-cat-btn').forEach(function(btn, i) {

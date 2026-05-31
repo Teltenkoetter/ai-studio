@@ -745,6 +745,19 @@ textarea, input, .img-prompt, .error-msg { user-select: text; }
           <p class="param-note" style="margin-top:4px;">Erlaubt realistische Personendarstellung.</p>
         </div>
 
+        <!-- Metadaten-Export -->
+        <div class="pgrp" id="grp-meta">
+          <div class="pgrp-lbl" data-i18n="lbl-meta">Metadaten-Export</div>
+          <div class="tog-row">
+            <span class="tog-text" data-i18n="meta-lbl">Aus</span>
+            <label class="toggle">
+              <input type="checkbox" id="tog-meta">
+              <div class="tog-track"><div class="tog-thumb"></div></div>
+            </label>
+          </div>
+          <p class="param-note" data-i18n="meta-note">PNG-Download speichert auch .txt mit Prompt, Modell &amp; Seed.</p>
+        </div>
+
       </div>
     </aside>
 
@@ -1066,6 +1079,15 @@ const MODEL_LABEL = {
   'pollinations-flux':                   'FLUX.1 Schnell',
   'pollinations-flux-realism':           'FLUX Realism'
 };
+const MODEL_SHORT = {
+  'gemini-3.1-flash-image-preview':      'GFlash',
+  'gemini-3-pro-image-preview':          'GPro',
+  'imagen-4.0-fast-generate-001':        'IFast',
+  'imagen-4.0-generate-001':             'IStd',
+  'imagen-4.0-ultra-generate-001':       'IUltra',
+  'pollinations-flux':                   'FLUX',
+  'pollinations-flux-realism':           'FLUXr'
+};
 
 /* ── LANGUAGE / I18N ── */
 var LANG = localStorage.getItem('nb_lang') || 'de';
@@ -1122,6 +1144,9 @@ var I18N = {
     'think-low-title':    '1024 Thinking-Tokens — minimaler Effekt, kaum spürbar',
     'think-med-title':    '8192 Thinking-Tokens — kein garantierter Qualitätssprung',
     'think-high-title':   '24576 Thinking-Tokens — deutlich teurer, Effekt auf Bildqualität unsicher',
+    'lbl-meta':           'Metadaten-Export',
+    'meta-lbl':           'Aus',
+    'meta-note':          'PNG-Download speichert auch .txt mit Prompt, Modell & Seed.',
     'login-subtitle': 'KI-Bildgenerierung für Innenarchitektur und Architektur',
     'tab-ws':         '🎓 Lehre',
     'tab-free':       '🆓 Kostenlos',
@@ -1199,6 +1224,9 @@ var I18N = {
     'think-low-title':    '1024 thinking tokens — minimal effect, barely noticeable',
     'think-med-title':    '8192 thinking tokens — no guaranteed quality jump',
     'think-high-title':   '24576 thinking tokens — significantly more expensive, uncertain effect on image quality',
+    'lbl-meta':           'Metadata export',
+    'meta-lbl':           'Off',
+    'meta-note':          'PNG download also saves a .txt with prompt, model & seed.',
     'login-subtitle': 'AI Image Generation for Interior and Architecture',
     'tab-ws':         '🎓 Course',
     'tab-free':       '🆓 Free',
@@ -1489,10 +1517,10 @@ var S = {
   safetyLess: false,
   chatMode: 'new', chatHistory: [],
   busy: false, totalImages: 0, totalCost: 0,
-  lbUrl: '', lbPrompt: '',
+  lbUrl: '', lbPrompt: '', lbModel: '', lbTemplate: '', lbSysCtx: '',
   inputImages: [],
   sysCtx: 'off', personGen: false,
-  lastTemplate: ''
+  lastTemplate: '', exportMeta: false
 };
 
 /* ── HELPERS ── */
@@ -1814,6 +1842,11 @@ function initParams() {
     S.personGen = e.target.checked;
     q('#persons-lbl').textContent = S.personGen ? 'Personen: erlaubt' : 'Personen: gesperrt';
   });
+  q('#tog-meta').addEventListener('change', function(e) {
+    S.exportMeta = e.target.checked;
+    q('#tog-meta').closest('.pgrp').querySelector('.tog-text').textContent =
+      S.exportMeta ? (LANG === 'en' ? 'On' : 'An') : (LANG === 'en' ? 'Off' : 'Aus');
+  });
   initSeg('seg-sysctx', function(v) {
     S.sysCtx = v;
     var note  = q('#sysctx-note');
@@ -2027,7 +2060,7 @@ function initUIEvents() {
   q('#btn-clear-history').addEventListener('click', clearHistory);
   q('#lb-bg').addEventListener('click', closeLightbox);
   q('#lb-close').addEventListener('click', closeLightbox);
-  q('#lb-dl').addEventListener('click', function() { doDownload(S.lbUrl, S.lbPrompt, S.lbSeed); });
+  q('#lb-dl').addEventListener('click', function() { doDownload(S.lbUrl, S.lbPrompt, S.lbSeed, S.lbModel, S.lbTemplate, S.lbSysCtx); });
   q('#lb-copy').addEventListener('click', function() { copyText(S.lbPrompt); });
   q('#lb-use').addEventListener('click', function() {
     var b64 = S.lbUrl.split(',')[1];
@@ -2266,10 +2299,13 @@ function makeLoadingCard() {
 }
 
 function makeImageCard(b64, prompt, elapsed, cost, inputCount, isHistory, seed, sysCtx) {
-  var url   = 'data:image/png;base64,' + b64;
-  var model = isHistory ? '' : S.model;
+  var url      = 'data:image/png;base64,' + b64;
+  var model    = isHistory ? '' : S.model;
+  var template = isHistory ? '' : S.lastTemplate; /* frozen at card creation */
   var now   = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
   var card  = mk('img-card');
+  card.dataset.model    = model || '';
+  card.dataset.template = template || '';
 
   var inputTag  = inputCount > 0 ? '<span class="tag' + (isHistory ? ' tag-hist' : '') + '">📎 ' + inputCount + '</span>' : '';
   var histTag   = isHistory ? '<span class="tag tag-hist">📚</span>' : '';
@@ -2296,9 +2332,9 @@ function makeImageCard(b64, prompt, elapsed, cost, inputCount, isHistory, seed, 
       '<div class="img-tags">' + histTag + modelTag + ctxTag + inputTag + timeTag + elapsTag + costTag + seedTag + '</div>' +
     '</div>';
 
-  card.querySelector('[data-act="lb"]').addEventListener('click', function(e) { e.stopPropagation(); openLightbox(url, prompt); });
+  card.querySelector('[data-act="lb"]').addEventListener('click', function(e) { e.stopPropagation(); openLightbox(url, prompt, seed, model, template, sysCtx); });
   card.querySelector('[data-act="use"]').addEventListener('click', function(e) { e.stopPropagation(); useAsInput(b64); });
-  card.querySelector('[data-act="dl"]').addEventListener('click', function(e) { e.stopPropagation(); doDownload(url, prompt, seed); });
+  card.querySelector('[data-act="dl"]').addEventListener('click', function(e) { e.stopPropagation(); doDownload(url, prompt, seed, model, template, sysCtx); });
   card.querySelector('[data-act="again"]').addEventListener('click', function(e) {
     e.stopPropagation();
     q('#prompt').value = prompt;
@@ -2306,7 +2342,7 @@ function makeImageCard(b64, prompt, elapsed, cost, inputCount, isHistory, seed, 
     generate();
   });
   card.querySelector('.img-wrap').addEventListener('click', function() { openLightbox(url, prompt, seed); });
-  card.addEventListener('contextmenu', function(e) { e.preventDefault(); doDownload(url, prompt); });
+  card.addEventListener('contextmenu', function(e) { e.preventDefault(); doDownload(url, prompt, seed, model, template, sysCtx); });
   var seedEl = card.querySelector('[data-act="copy-seed"]');
   if (seedEl) {
     seedEl.addEventListener('click', function(e) {
@@ -2428,8 +2464,9 @@ function clearHistory() {
 }
 
 /* ── LIGHTBOX ── */
-function openLightbox(url, prompt, seed) {
+function openLightbox(url, prompt, seed, model, template, sysCtx) {
   S.lbUrl = url; S.lbPrompt = prompt; S.lbSeed = seed !== undefined ? seed : null;
+  S.lbModel = model || ''; S.lbTemplate = template || ''; S.lbSysCtx = sysCtx || '';
   q('#lb-img').src = url;
   q('#lb-prompt').textContent = prompt;
   q('#lightbox').classList.add('show');
@@ -2589,7 +2626,7 @@ function downloadAll() {
     var seedEl  = card.querySelector('[data-act="copy-seed"]');
     var seed    = seedEl ? seedEl.dataset.seed : null;
     if (img && img.src.startsWith('data:')) {
-      imgs.push({ src: img.src, seed: seed });
+      imgs.push({ src: img.src, seed: seed, model: card.dataset.model || '', template: card.dataset.template || '' });
     }
   });
   if (!imgs.length) { showToast('Keine Bilder zum Herunterladen'); return; }
@@ -2597,7 +2634,7 @@ function downloadAll() {
     setTimeout(function() {
       var a = document.createElement('a');
       a.href = item.src;
-      a.download = makeFilename(item.seed);
+      a.download = makeFilename(item.seed, item.model) + '.png';
       a.click();
     }, i * 380);
   });
@@ -2615,21 +2652,51 @@ function closeHelp() { q('#help-modal').classList.remove('show'); }
 
 /* ── DOWNLOAD COUNTER ── */
 var DOWNLOAD_CTR = 0;
-function makeFilename(seed) {
+function makeFilename(seed, modelKey) {
   DOWNLOAD_CTR++;
   var g   = (S.gruppe || 'KI').replace(/[^a-zA-Z0-9]/g, '');
-  var t   = S.lastTemplate ? S.lastTemplate + '_' : '';
+  var tpl = S.lastTemplate ? S.lastTemplate + '_' : '';
+  var m   = modelKey ? (MODEL_SHORT[modelKey] || 'KI') + '_' : '';
   var s   = (seed !== null && seed !== undefined) ? String(seed) : '0';
   var num = String(DOWNLOAD_CTR).padStart(2, '0');
-  return g + '_' + t + s + '_' + num + '.png';
+  return g + '_' + tpl + m + s + '_' + num;  /* no extension — added per file */
 }
 
 /* ── DOWNLOAD / COPY ── */
-function doDownload(url, prompt, seed) {
+function doDownload(url, prompt, seed, modelKey, template, sysCtx) {
+  var base = makeFilename(seed, modelKey);
+  /* PNG */
   var a = document.createElement('a');
   a.href = url;
-  a.download = makeFilename(seed);
+  a.download = base + '.png';
   a.click();
+  /* TXT metadata companion — only if enabled */
+  if (!S.exportMeta) return;
+  setTimeout(function() {
+    var now   = new Date();
+    var datum = now.toLocaleDateString('de-DE') + ' · ' +
+                now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+    var ctxStr = sysCtx === 'expert' ? 'Expert' : sysCtx === 'grey' ? 'Graustufen' : 'Aus';
+    var tplStr = template ? template.replace('-', '.') : '—';
+    var txt =
+      'KI Studio\n' +
+      '════════════════════════════════════════\n' +
+      'Datum:      ' + datum + '\n' +
+      'Gruppe:     ' + (S.gruppe || '—') + '\n' +
+      'Modell:     ' + (MODEL_LABEL[modelKey] || modelKey || '—') + '\n' +
+      'Template:   ' + tplStr + '\n' +
+      'Seed:       ' + (seed !== null && seed !== undefined ? seed : '—') + '\n' +
+      'Kontext:    ' + ctxStr + '\n\n' +
+      'Prompt:\n' +
+      '────────────────────────────────────────\n' +
+      (prompt || '—') + '\n';
+    var blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+    var b = document.createElement('a');
+    b.href = URL.createObjectURL(blob);
+    b.download = base + '.txt';
+    b.click();
+    setTimeout(function() { URL.revokeObjectURL(b.href); }, 1000);
+  }, 200);
 }
 
 function copyText(text) {
